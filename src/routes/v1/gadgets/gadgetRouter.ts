@@ -115,7 +115,6 @@ router.patch(
 
       //Validating the body
       const validateBody = updateGadgetBodySchema.safeParse(body);
-      console.log("validate body", validateBody);
       if (!validateBody.success) {
         return next(
           createHttpError.BadRequest(validateBody.error?.errors[0].message)
@@ -123,10 +122,12 @@ router.patch(
       }
       const gadget = await prisma.gadget.update({
         where: { id },
-        data: req.body,
+        data: {
+          ...req.body , 
+          updatedDate : new Date()
+        },
       });
       await deleteGadgetCache();
-
       if (!gadget) {
         return next(createHttpError.NotFound("Gadget not found"));
       }

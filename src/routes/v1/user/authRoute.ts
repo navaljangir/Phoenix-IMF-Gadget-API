@@ -7,7 +7,6 @@ const router = Router();
 
 router.post('/register' , async(req , res , next)=>{
   const JWT_SECRET = process.env.JWT_SECRET || 'YOURTOPSECRETPASSWORD';
-    console.log(req.ip)
     try {
         const { email, password } = req.body;
         console.log(email)
